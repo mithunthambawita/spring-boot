@@ -1,10 +1,13 @@
 package entity;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 //@Entity(name="student_table")
 //@Table(name = "student_table") // optional
 @Entity  //required (default table == student)
+@DynamicUpdate
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
