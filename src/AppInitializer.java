@@ -1,12 +1,16 @@
 import entity.Student;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class AppInitializer {
     public static void main(String[] args) {
        Student student = new Student(2,"Mithun Bandara",90.00);
-       saveStudent(student);
+//       saveStudent(student);
 //        findStudent(1);
+        findAllStudents();
     }
     private static void saveStudent(Student student){
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -27,6 +31,14 @@ public class AppInitializer {
             }else {
                 System.out.println("Can not find data");
             }
+        }
+    }
+    private static void findAllStudents(){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query query = session.createQuery("FROM Student tudent"); // HQL : hibernate quary language
+            List<Student> students = query.list();
+            System.out.println(students);
+
         }
     }
 
