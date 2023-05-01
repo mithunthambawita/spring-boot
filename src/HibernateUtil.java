@@ -14,8 +14,6 @@ public class HibernateUtil {
     static {
         try {
             if (sessionFactory==null){
-
-
                  standardServiceRegistry
                         = new StandardServiceRegistryBuilder()
                          .configure()

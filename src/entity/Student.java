@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity  //required (default table == student)
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long studentId;
     @Column(name = "name",length = 45,nullable = false)

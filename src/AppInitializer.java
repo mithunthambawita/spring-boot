@@ -1,31 +1,30 @@
+import entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AppInitializer {
     public static void main(String[] args) {
-        printMySQLVersion();
-        printMySQLDateAndTime();
+       Student student = new Student(1,"Kamal Bandara",90.00);
+       saveStudent(student);
     }
-    private static void  printMySQLVersion(){
+    private static void saveStudent(Student student){
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Object result =
-                    session.createNativeQuery("SELECT VERSION()").getSingleResult();
-            System.out.println(result);
-        }
-    }
-    private static void  printMySQLDateAndTime(){
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Object result =
-                    session.createNativeQuery("SELECT NOW()").getSingleResult();
-            System.out.println(result);
+            //save (it return a serializable object, return primary key of the saved object)
+            //persist,saveOrUpdate
+            Transaction transaction = session.beginTransaction();//save, update and delete
+            long primaryKey = (Long) session.save(student);
+            transaction.commit();
+            System.out.println(primaryKey);
         }
     }
 
