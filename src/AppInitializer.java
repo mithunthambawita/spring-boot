@@ -11,7 +11,8 @@ public class AppInitializer {
 //       saveStudent(student);
 //        findStudent(1);
 //        findAllStudents();
-        updateStudent("Kamali",1);
+//        updateStudent("Kamali",1);
+        deleteStudent(1);
     }
     private static void saveStudent(Student student){
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -58,7 +59,16 @@ public class AppInitializer {
     }
 
     private static void deleteStudent(long id){
-
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Student selectedStudent = session.find(Student.class, id);
+            if(selectedStudent!=null){
+                Transaction transaction = session.beginTransaction();
+                session.delete(selectedStudent);
+                transaction.commit();
+            }else {
+                System.out.println("can not find data");
+            }
+        }
     }
 
 
