@@ -1,3 +1,4 @@
+import entity.Book;
 import entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +17,8 @@ public class AppInitializer {
     public static void main(String[] args) {
        Student student = new Student(1,"Kamal Bandara",90.00);
        saveStudent(student);
+       Book book = new Book(1,"my Book");
+       saveBook(book);
     }
     private static void saveStudent(Student student){
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -23,6 +26,17 @@ public class AppInitializer {
             //persist,saveOrUpdate
             Transaction transaction = session.beginTransaction();//save, update and delete
             long primaryKey = (Long) session.save(student);
+            transaction.commit();
+            System.out.println(primaryKey);
+        }
+    }
+
+    private static void saveBook(Book book){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            //save (it return a serializable object, return primary key of the saved object)
+            //persist,saveOrUpdate
+            Transaction transaction = session.beginTransaction();//save, update and delete
+            long primaryKey = (Long) session.save(book);
             transaction.commit();
             System.out.println(primaryKey);
         }
